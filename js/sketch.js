@@ -39,18 +39,29 @@ var randomWalk = new Tone.CtrlRandom({
 });
 
 function setup() {
-	createCanvas(windowWidth, windowHeight);
+	var ctx = createCanvas(windowWidth, windowHeight);
+
 	strokeColor = color(255);
+
+	fill(255);
 
 	colorMode(HSB);
 	resetShape();
 
 	stroke(strokeColor);
 	strokeWeight(5);
+	textAlign(CENTER);
+	textSize(36);
 }
 
 function draw() {
 	background(0);
+
+	if (!StartAudioContext.isStarted()) {
+		noStroke();
+		text('Tap to start audio', width/2, height/2);
+		stroke(strokeColor);
+	}
 
 	var distIsBig = prevPoint && (Math.abs(mouseX-prevPoint.x)>pointDist || Math.abs(mouseY-prevPoint.y) > pointDist );
 
@@ -132,4 +143,8 @@ function drawPoints(points) {
 	for (var j = 0; j < points.length; j++) {
 		point(points[j].x, points[j].y);
 	}
+}
+
+function windowResized() {
+	resizeCanvas(windowWidth, windowHeight);
 }
